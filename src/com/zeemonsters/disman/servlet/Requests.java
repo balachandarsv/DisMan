@@ -46,7 +46,6 @@ public class Requests extends HttpServlet {
 		if (userAccount != null) {
 			JSONArray arr = com.zeemonsters.disman.db.Profile.getProfile(com.zeemonsters.disman.db.Profile.USERNAME,
 					"'" + userAccount.getUserName() + "'");
-
 			if (arr.length() > 0) {
 				String pin = arr.getJSONObject(0).getString("pincode");
 				JSONArray array = Pincode.getLatLong(Pincode.PINCODE, "'" + pin + "'");
@@ -76,11 +75,10 @@ public class Requests extends HttpServlet {
 				
 				return Response.status(200).entity(respObj.toString()).build();
 			} else {
-				String errorMessage = "Profile not updated";
-				JSONObject responseObj = new JSONObject();
-				responseObj.put("message", errorMessage);
-				responseObj.put("status", "FAILED");
-				return Response.status(400).entity(responseObj.toString()).build();
+				JSONObject respObj = new JSONObject();
+				JSONArray allArray = Issues.getIssues();
+				respObj.put("all", allArray);
+				return Response.status(200).entity(respObj.toString()).build();
 			}
 
 		} else {
